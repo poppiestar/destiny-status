@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/poppiestar/destiny-status",
   "dependencies": {
-    "express": "^4.12.4"
+    "express": "^4.12.4",
+    "winston": "^1.0.0"
   }
 }

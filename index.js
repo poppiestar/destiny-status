@@ -1,7 +1,10 @@
 
 var express = require('express');
+var logger = require('winston');
 
 var app = express();
+
+app.set('port', (process.env.PORT || 5000));
 
 app.get('/status', function (req, res) {
     if (req.query.username && req.query.system) {
@@ -11,7 +14,7 @@ app.get('/status', function (req, res) {
     }
 });
 
-app.listen(5050, function () {
-    console.log('Destiny Status server running on port 5050');
+app.listen(app.get('port'), function () {
+    logger.info('Destiny Status server running on port %d', app.get('port'));
 });
 
