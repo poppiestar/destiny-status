@@ -1,0 +1,27 @@
+{
+  "name": "destiny-status",
+  "version": "0.0.1",
+  "description": "A service that allows Destiny players to see what activities their friends are willing to play.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/poppiestar/destiny-status"
+  },
+  "keywords": [
+    "destiny",
+    "status",
+    "notifications"
+  ],
+  "author": "Drew Miller (drew@onpatrol.co)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/poppiestar/destiny-status/issues"
+  },
+  "homepage": "https://github.com/poppiestar/destiny-status",
+  "dependencies": {
+    "express": "^4.12.4"
+  }
+}
