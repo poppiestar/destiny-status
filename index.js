@@ -4,7 +4,11 @@ var express = require('express');
 var app = express();
 
 app.get('/status', function (req, res) {
-    res.json({ available: false });
+    if (req.query.username && req.query.system) {
+        res.json({ status: true, username: req.query.username, system: req.query.system });
+    } else {
+        res.status(400).json({ error: 'Username or system type not provided' });
+    }
 });
 
 app.listen(5050, function () {
