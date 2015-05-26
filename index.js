@@ -21,7 +21,16 @@ mongoClient.connect(mongoInstance, function (err, db) {
 
     app.get('/status', function (req, res) {
         if (req.query.username && req.query.system) {
-            res.json({ status: true, username: req.query.username, system: req.query.system });
+            var collection = db.collection('statuses');
+
+            collection.find({}).toArray(function (err, data) {
+                if (err) {
+                    logger.error('Error retrieving statuses from database');
+                    return;
+                }
+
+                res.json({ status: true, username: req.query.username, system: req.query.system, data: data });
+            });
         } else {
             res.status(400).json({ error: 'Username or system type not provided' });
         }
