@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/poppiestar/destiny-status",
   "dependencies": {
+    "PSNjs": "^0.1.1",
+    "body-parser": "^1.12.4",
     "express": "^4.12.4",
     "winston": "^1.0.0"
   }
