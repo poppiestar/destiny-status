@@ -9,7 +9,7 @@ var mongoClient = require('mongodb').MongoClient;
 var mongoInstance = 'mongodb://localhost:27017/destiny-status';
 
 app.use(bodyParser.urlencoded({ extended: false, parameterLimit: 2 }));
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 4040));
 
 mongoClient.connect(mongoInstance, function (err, db) {
     if (err) {
