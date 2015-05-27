@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "mocha": "^2.2.5",
+    "sinon": "^1.14.1",
     "supertest": "^1.0.1"
   }
 }
