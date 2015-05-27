@@ -1,14 +1,11 @@
 
 'use strict';
 
-var request = require('supertest'),
-    express = require('express');
+var request = require('supertest');
 
-var app = express();
+var destinyStatus = require('../lib/destiny-status');
 
-app.get('/status', function (req, res) {
-    res.status(200).send({ name: 'Drew' });
-});
+var app = destinyStatus.setup({});
 
 describe('GET /status', function () {
     it('responds with JSON', function (done) {
@@ -16,7 +13,7 @@ describe('GET /status', function () {
             .get('/status')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-            .expect(200, done);
+            .expect(400, done);
     });
 });
 
