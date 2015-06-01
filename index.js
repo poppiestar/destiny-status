@@ -4,14 +4,17 @@ var logger = require('winston');
 
 var app = express();
 
-var mongoClient = require('mongodb').MongoClient;
+var mongoose = require('mongoose');
 
 var destinyStatus = require('./lib/destiny-status');
+var secrets = require('./config/secrets');
 
 app.set('port', (process.env.PORT || 4040));
-app.set('mongoUrl', (process.env.PORT || 'mongodb://localhost:27017/destiny-status'));
 
-mongoClient.connect(app.get('mongoUrl'), function (err, db) {
+mongoose.connect(secrets.db);
+
+var 
+mongoose.connect(secrets.db, function (err, db) {
     if (err) {
         logger.error(err);
         return;
