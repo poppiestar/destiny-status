@@ -3,14 +3,15 @@ var express = require('express');
 var logger = require('winston');
 
 var app = express();
+var bodyParser = require('body-parser');
+var PSNjs = require('PSNjs');
 
-var destinyStatus = require('./lib/destiny-status');
 var activities = require('./lib/activities');
-var secrets = require('./config/secrets');
 
 app.set('port', (process.env.PORT || 4040));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+app.use(bodyParser.urlencoded({ extended: false, parameterLimit: 2 }));
 
 var router = express.Router();
 
@@ -23,6 +24,28 @@ router
         res.render('dashboard', {});
     })
     .post('/login', function (req, res) {
+        if (req.body.email && req.body.password) {
+            var psn = new PSNjs({
+                email: req.body.email,
+                password: req.body.password,
+                debug: true
+            });
+
+            psn.getFriends(0, 999, function (error, data) {
+                if (error) {
+                    logger.error('Unable to log into PSN');
+                    res.status(500).json({error: 'Failed login'});
+                } else {
+                    var friends = [];
+
+                    for (var friend in data.friendList) {
+                        friends.push(data.friendList[friend].onlineId);
+                    }
+
+                    res.json({ success: true, friends: friends });
+                }
+            });
+        }
     })
     .get('/status/:system?/:username?', function (req, res) {
         if (req.params.username && req.params.system) {
@@ -30,7 +53,7 @@ router
             var system = req.params.system;
 
             // this will be replaced with a server call, hacky for now
-            var playerStatus = destinyStatus.getPlayerStatus(username, system);
+            var playerStatus = {};
 
             res.render('status/view', { activities: activities, status: playerStatus });
         }
@@ -41,7 +64,7 @@ router
             var system = req.params.system;
 
             // this will be replaced with a server call, hacky for now
-            var playerStatus = destinyStatus.getPlayerStatus(username, system);
+            var playerStatus = {};
 
             res.render('status/edit', { activities: activities, status: playerStatus });
         }

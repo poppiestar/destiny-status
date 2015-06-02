@@ -1,0 +1,14 @@
+
+extends ./layout.jade
+
+block body
+    form(action="/login", method="post")
+        p
+            label(for='email') Email
+            input(id='email', type='email', name="email")
+        p
+            label(for='password') Password
+            input(id='password', type='password', name='password')
+        p
+            button Submit
+
