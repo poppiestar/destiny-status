@@ -1,0 +1,25 @@
+extends ../layout.jade
+
+block body
+    h1 Username: #{status.username}
+        span (#{status.system})
+    p Last Updated: #{status.lastUpdated}
+    p Status: #{status.status}
+    p Available: #{status.available ? 'Yes' : 'No'}
+    
+    h2 Activities
+    
+    each activity in activities
+        h3= activity.title
+
+        ul.activities
+            each available, key in activity.available
+                if available.levels
+                    li
+                        h4= available.name
+
+                    each level in available.levels
+                        p Level #{level}: #{status.activities[key][level] ? 'Yes': 'No'}
+                else
+                    li #{available.name}: #{status.activities[key] ? 'Yes': 'No'}
+                
