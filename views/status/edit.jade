@@ -1,5 +1,8 @@
 extends ../layout.jade
 
+mixin statusBox(name, value)
+    input(type='checkbox', name=name, checked=value)
+
 block body
     h1 Username: #{status.username}
         span (#{status.system})
@@ -19,7 +22,9 @@ block body
                         h4= available.name
 
                     each level in available.levels
-                        p Level #{level}: #{status.activities[key][level] ? 'Yes': 'No'}
+                        p Level #{level}: 
+                            +statusBox('Thing', status.activities[key][level])
                 else
-                    li #{available.name}: #{status.activities[key] ? 'Yes': 'No'}
+                    li #{available.name}:
+                        +statusBox('Thing', status.activities[key])
                 
