@@ -1,0 +1,16 @@
+
+extends ./layout.jade
+
+block body
+    .status
+        h2 #{guardian.name} (#{guardian.available ? 'Available' : 'Not Available'})
+        p= guardian.status
+
+        if guardian.friends
+            ul.friends
+                each friend in guardian.friends
+                    li.friend 
+                        p.friend__status #{friend.name} (#{friend.available ? 'Available' : 'Not Available'})
+                        div.friend__detail
+                            p Details to come
+            

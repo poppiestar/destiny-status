@@ -15,13 +15,19 @@ app.use(bodyParser.urlencoded({ extended: false, parameterLimit: 2 }));
 
 var router = express.Router();
 
+var guardian = {
+    status: "Looking for a quick run through Crota HM, anyone?",
+    available: true,
+    friends: []
+};
+
 router
     .get('/', function (req, res) {
         res.render('index');
         // if logged in redirect to dashboard
     })
     .get('/dashboard', function (req, res) {
-        res.render('dashboard', {});
+        res.render('dashboard', { guardian: guardian });
     })
     .post('/login', function (req, res) {
         if (req.body.email && req.body.password) {
@@ -31,19 +37,29 @@ router
                 debug: true
             });
 
-            psn.getFriends(0, 999, function (error, data) {
+            psn.GetPSN(function(error, data) {
                 if (error) {
                     logger.error('Unable to log into PSN');
-                    res.status(500).json({error: 'Failed login'});
-                } else {
-                    var friends = [];
-
-                    for (var friend in data.friendList) {
-                        friends.push(data.friendList[friend].onlineId);
-                    }
-
-                    res.json({ success: true, friends: friends });
+                    res.status(500).json({ error: 'Failed login' });
                 }
+
+                guardian.name = data.psn;
+
+                psn.getFriends(0, 999, function (error, data) {
+                    if (error) {
+                        logger.error('Unable to log into PSN');
+                        res.status(500).json({ error: 'Failed login' });
+                    } else {
+                        for (var friend in data.friendList) {
+                            guardian.friends.push({
+                                name: data.friendList[friend].onlineId,
+                                available: false
+                            });
+                        }
+
+                        res.redirect('/dashboard');
+                    }
+                });
             });
         }
     })
