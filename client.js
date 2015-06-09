@@ -18,7 +18,7 @@ var router = express.Router();
 var guardian = {
     status: "Looking for a quick run through Crota HM, anyone?",
     available: true,
-    friends: []
+    friends: {}
 };
 
 router
@@ -51,10 +51,10 @@ router
                         res.status(500).json({ error: 'Failed login' });
                     } else {
                         for (var friend in data.friendList) {
-                            guardian.friends.push({
+                            guardian.friends[data.friendList[friend].onlineId] = {
                                 name: data.friendList[friend].onlineId,
                                 available: false
-                            });
+                            };
                         }
 
                         res.redirect('/dashboard');
