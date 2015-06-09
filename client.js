@@ -31,9 +31,12 @@ router
     })
     .post('/login', function (req, res) {
         if (req.body.email && req.body.password) {
+            var email = req.body.email;
+            var password = req.body.password;
+
             var psn = new PSNjs({
-                email: req.body.email,
-                password: req.body.password,
+                email: email,
+                password: password,
                 debug: true
             });
 
@@ -51,8 +54,10 @@ router
                         res.status(500).json({ error: 'Failed login' });
                     } else {
                         for (var friend in data.friendList) {
-                            guardian.friends[data.friendList[friend].onlineId] = {
-                                name: data.friendList[friend].onlineId,
+                            var friendName = data.friendList[friend].onlineId;
+
+                            guardian.friends[friendName] = {
+                                name: friendName,
                                 available: false
                             };
                         }
